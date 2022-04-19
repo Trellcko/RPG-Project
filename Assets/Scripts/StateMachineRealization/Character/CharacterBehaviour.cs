@@ -5,7 +5,7 @@ using Trell.Movement;
 using Trell.Utils;
 using UnityEngine;
 
-namespace Trell
+namespace Trell.StateMachineRealization.Character
 {
 	public abstract class CharacterBehaviour : BaseBehaviour
 	{
@@ -22,10 +22,23 @@ namespace Trell
         [field: SerializeField] public AttackingAnimator AttackingAnimator;
         [field: SerializeField] public DeathAnimator DeathAnimator;
 
+        [Space]
+        [Header("Checkers for range")]
+        [SerializeField] protected CheckingForRange CheckingForRangeToStartAttack;
+        public bool InRangeRangeToStartAttack => CheckingForRangeToStartAttack.InRange(Target.transform.position);
+
         public Health Target { get; protected set; }
 
-        [SerializeField] protected CheckingForRange CheckingForRangeToStartAttack;
-
         protected override void InitStateMachine() { }
+
+        public void Update()
+        {
+            StateMachine.Update();
+        }
+
+        public void FixedUpdate()
+        {
+            StateMachine.FixedUpdate();
+        }
     }
 }

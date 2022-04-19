@@ -1,11 +1,11 @@
 using Trell.Core.StateMachinePattern;
-using UnityEngine;
 
 namespace Trell.StateMachineRealization.Character
 {
     public class AttackState : BaseState
     {
         private CharacterBehaviour _characterBehaviour;
+
         public AttackState(StateMachine stateMachine, CharacterBehaviour behaviour) : base(stateMachine, behaviour)
         {
             _characterBehaviour = behaviour;
@@ -24,7 +24,13 @@ namespace Trell.StateMachineRealization.Character
             _characterBehaviour.AttackingAnimator.Attacking -= Attack;
             _characterBehaviour.AttackingAnimator.StopAttackImmediately();
         }
-        protected void Attack()
+
+        public override void Update()
+        {
+            _characterBehaviour.transform.LookAt(_characterBehaviour.Target.transform);
+        }
+
+        protected virtual void Attack()
         {
             _characterBehaviour.Attacking.Attack(_characterBehaviour.Target);
         }

@@ -1,3 +1,4 @@
+using System;
 using Trell.CombatSystem;
 using Trell.Core.Input;
 using UnityEngine;
@@ -9,11 +10,11 @@ namespace Trell.Player
         [TagField]
         [SerializeField] private string _enemyTag;
 
-        
+        public event Action<Health> HittedEnemyChanged;
+
         public Vector3 LastClickedPosition { get; private set; }
 
-        public Health HittedEnemy { get; private set; }
-
+        private Health _hittedEnemy;
         private Camera _camera;
         private bool _isMouseDown => InputHandler.Instace.IsMouseDown;
 
@@ -21,6 +22,7 @@ namespace Trell.Player
         private void Awake()
         {
             _camera = Camera.main;
+            LastClickedPosition = transform.position;
         }
 
         private void Update()
@@ -34,27 +36,54 @@ namespace Trell.Player
                 if (hits.Length > 0)
                 {
                     Health tempEnemy = null;
-                    Vector3 previousClickPosition = LastClickedPosition;
                     LastClickedPosition = hits[0].point;
                     foreach (var hit in hits)
                     {
                         if (hit.transform.CompareTag(_enemyTag))
                         {
                             hit.transform.TryGetComponent(out tempEnemy);
-                            if(tempEnemy.IsDied)
+                            if (tempEnemy.IsDied)
                             {
                                 tempEnemy = null;
                                 continue;
                             }
-                            LastClickedPosition = previousClickPosition;
                             break;
                         }
                     }
-                    HittedEnemy = tempEnemy;
-                    return;   
+                    TryInvokeHittedEnemyChanged(tempEnemy);
+                    return;
                 }
-                HittedEnemy = null;
+                TryInvokeHittedEnemyChanged(null);
             }
+        }
+
+        private void EnemyHealthDownToZeroHandle()
+        {
+            _hittedEnemy.DownToZero -= EnemyHealthDownToZeroHandle;
+            LastClickedPosition = transform.position;
+            TryInvokeHittedEnemyChanged(null);
+        }
+
+        private bool TryInvokeHittedEnemyChanged(Health enemy)
+        {
+            if (_hittedEnemy != enemy)
+            {
+                HittedEnemyChanged?.Invoke(enemy);
+
+                if (_hittedEnemy != null)
+                {
+                    _hittedEnemy.DownToZero -= EnemyHealthDownToZeroHandle;
+                }
+
+                _hittedEnemy = enemy;
+
+                if(_hittedEnemy != null)
+                {
+                    _hittedEnemy.DownToZero += EnemyHealthDownToZeroHandle;
+                }
+                return true;
+            }
+            return false;
         }
     }
 }

@@ -22,9 +22,6 @@ namespace Trell.StateMachineRealization.Character.AI
         public Transform PlayerTransform { get; private set; }
 
         public bool InRangeToTriggerChasing => _checkingForRangeToTriggerChasing.InRange(PlayerTransform.position);
-        public bool InRangeRangeToStartAttack => CheckingForRangeToStartAttack.InRange(PlayerTransform.position);
-
-        private StateMachine _stateMachine;
 
         private void Awake()
         {
@@ -32,29 +29,19 @@ namespace Trell.StateMachineRealization.Character.AI
             InitStateMachine();
         }
 
-        private void Update()
-        {
-            _stateMachine.Update();
-        }
-
-        private void FixedUpdate()
-        {
-            _stateMachine.FixedUpdate();
-        }
-
         protected override void InitStateMachine()
         {
-            _stateMachine = new StateMachine();
+            StateMachine = new StateMachine();
             var states = new Dictionary<Type, BaseState>()
             {
-                [typeof(AIPatrolState)] = new AIPatrolState(_stateMachine, this),
-                [typeof(AIChasingState)] = new AIChasingState(_stateMachine, this),
-                [typeof(AIAttackState)] = new AIAttackState(_stateMachine, this),
-                [typeof(DieState)] = new DieState(_stateMachine, this)
+                [typeof(AIPatrolState)] = new AIPatrolState(StateMachine, this),
+                [typeof(AIChaseState)] = new AIChaseState(StateMachine, this),
+                [typeof(AIAttackState)] = new AIAttackState(StateMachine, this),
+                [typeof(DieState)] = new DieState(StateMachine, this)
             };
-            _stateMachine.InitStateMachine(states);
+            StateMachine.InitStateMachine(states);
 
-            _stateMachine.SetState<AIPatrolState>();
+            StateMachine.SetState<AIPatrolState>();
         }
 
         private void GetPlayer()

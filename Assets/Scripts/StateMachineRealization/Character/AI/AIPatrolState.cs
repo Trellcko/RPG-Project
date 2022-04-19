@@ -25,7 +25,7 @@ namespace Trell.StateMachineRealization.Character.AI
         {
             if (_aIBehaviour.InRangeToTriggerChasing)
             {
-                GoToState<AIChasingState>();
+                GoToState<AIChaseState>();
             }
         }
     }

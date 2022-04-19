@@ -12,9 +12,10 @@ namespace Trell.StateMachineRealization.Character.AI
 
         public override void Update()
         {
-            if(_aIBehaviour.InRangeRangeToStartAttack == false)
+            base.Update();
+            if (_aIBehaviour.InRangeRangeToStartAttack == false)
             {
-                GoToState<AIChasingState>();
+                GoToState<AIChaseState>();
             }
         }
 
