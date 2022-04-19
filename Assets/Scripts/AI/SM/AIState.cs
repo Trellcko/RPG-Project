@@ -2,7 +2,7 @@ using Trell.Core.StateMachinePattern;
 
 namespace Trell.AI.States
 {
-    public class AIState : BaseState
+    public abstract class AIState : BaseState
     {
         protected AIBehaviour AIBehaviour;
 

@@ -1,4 +1,3 @@
-using Trell.AI;
 using Trell.Core.StateMachinePattern;
 
 namespace Trell.AI.States
