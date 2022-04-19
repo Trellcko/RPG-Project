@@ -7,11 +7,11 @@ namespace Trell.Core.StateMachinePattern
         {
             _stateMachine = stateMachine;
         }
-        public abstract void Enter();
+        public virtual void Enter() { }
         public virtual void Update() { }
 
         public virtual void FixedUpdate() { }
-        public abstract void Exit();
+        public virtual void Exit() { }
 
         protected void GoToState<T>() where T : BaseState 
         {

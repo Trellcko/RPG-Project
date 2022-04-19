@@ -25,7 +25,6 @@ namespace Trell.AI.States
             {
                 GoToState<AIChasingState>();
             }
-
         }
     }
 }
