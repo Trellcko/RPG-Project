@@ -1,29 +1,38 @@
-namespace Trell.AI.FSM
+using Trell.Core.StateMachinePattern;
+
+namespace Trell.AI.States
 {
-    public class AIChasingState : BaseState
+    public class AIChasingState : AIState
     {
-        public AIChasingState(AIStateMachine stateMachine) : base(stateMachine)
+        public AIChasingState(StateMachine stateMachine, AIBehaviour aIBehaviour) : base(stateMachine, aIBehaviour)
         {
         }
 
         public override void Enter()
-        { 
+        {
+            AIBehaviour.Health.DownToZero += GoToState<AIDieState>;
         }
 
         public override void Exit()
         {
-            StateMachine.Mover.Stop();
-            StateMachine.MovementAnimator.SetSpeed(0f);
+            AIBehaviour.Health.DownToZero -= GoToState<AIDieState>;
+            AIBehaviour.Mover.Stop();
+            AIBehaviour.MovementAnimator.SetSpeed(0f);
+        }
+
+        public override void FixedUpdate()
+        {
+            AIBehaviour.Mover.SetTarget(AIBehaviour.PlayerTransform.position);
         }
 
         public override void Update()
         {
-            StateMachine.Mover.SetTarget(StateMachine.PlayerTransform.position);
-            StateMachine.MovementAnimator.SetSpeed(StateMachine.Mover.GetSpeed());
-            if(StateMachine.InRangeToStartAttack)
+            AIBehaviour.MovementAnimator.SetSpeed(AIBehaviour.Mover.GetSpeed());
+            if(AIBehaviour.InRangeRangeToStartAttack)
             {
-                StateMachine.SetState<AIAttackState>();
+                GoToState<AIAttackState>();
             }
         }
+
     }
 }

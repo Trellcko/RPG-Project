@@ -1,29 +1,29 @@
-using Trell.AI.FSM;
-using UnityEngine;
+using Trell.Core.StateMachinePattern;
 
-namespace Trell.AI.FSM
+namespace Trell.AI.States
 {
-    public class AIPatrolState : BaseState
+    public class AIPatrolState : AIState
     {
-        public AIPatrolState(AIStateMachine stateMachine) : base(stateMachine)
+        public AIPatrolState(StateMachine stateMachine, AIBehaviour aIBehaviour) : base(stateMachine, aIBehaviour)
         {
         }
 
         public override void Enter()
         {
+            AIBehaviour.Health.DownToZero += GoToState<AIDieState>;
         }
 
      
         public override void Exit()
         {
+            AIBehaviour.Health.DownToZero -= GoToState<AIDieState>;
         }
 
         public override void Update()
         {
-            Debug.Log("Я патрулирую, Лол.");
-            if (StateMachine.InRangeToTriggerChasing)
+            if (AIBehaviour.InRangeToTriggerChasing)
             {
-                StateMachine.SetState<AIChasingState>();
+                GoToState<AIChasingState>();
             }
 
         }

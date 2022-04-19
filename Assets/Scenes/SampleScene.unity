@@ -445,6 +445,7 @@ GameObject:
   - component: {fileID: 536817560}
   - component: {fileID: 536817564}
   - component: {fileID: 536817563}
+  - component: {fileID: 536817565}
   - component: {fileID: 536817559}
   m_Layer: 0
   m_Name: Enemy
@@ -463,7 +464,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.19
+  m_Radius: 0.36
   m_Height: 1.91
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
@@ -476,12 +477,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 536817557}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 699a35f65fa80c04e95734fa4a292507, type: 3}
+  m_Script: {fileID: 11500000, guid: ee79aece117414b4bb362a0e64c4faed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Mover: {fileID: 536817563}
+  Attacking: {fileID: 536817565}
+  Health: {fileID: 536817562}
   MovementAnimator: {fileID: 1519881270}
   AttackingAnimator: {fileID: 1519881271}
+  DeathAnimator: {fileID: 1519881269}
   _checkingForRangeToTriggerChasing: {fileID: 518915407}
   _checkingForRangeToStartAttack: {fileID: 1477952760}
   _playerTag: Player
@@ -528,7 +532,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _health: 100
-  _deathAnimator: {fileID: 1519881269}
 --- !u!114 &536817563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -563,6 +566,19 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &536817565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 536817557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 023e12177b360fd429c5d640c32c91ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 5
 --- !u!4 &551200906 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 413494, guid: c2849fd453abd0445a702a035f04ac60, type: 3}
@@ -975,7 +991,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _health: 100
-  _deathAnimator: {fileID: 0}
 --- !u!4 &917194217 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 413494, guid: c2849fd453abd0445a702a035f04ac60, type: 3}
@@ -1722,6 +1737,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 492888, guid: 5ad43ee3802caa04ab0928a13c462a56, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 495996, guid: 5ad43ee3802caa04ab0928a13c462a56, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -1945,6 +1964,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerAttackingHandler: {fileID: 1446447199}
   _playerClickHandler: {fileID: 1446447196}
+--- !u!114 &1446447205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446447195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6219a1c9ae20d6d4e962b24189dbf208, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _health: 10000
 --- !u!1001 &1463411139
 PrefabInstance:
   m_ObjectHideFlags: 0

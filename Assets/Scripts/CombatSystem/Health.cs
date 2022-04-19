@@ -1,4 +1,4 @@
-using Trell.Animation.Character;
+using System;
 using UnityEngine;
 
 namespace Trell.CombatSystem
@@ -7,24 +7,12 @@ namespace Trell.CombatSystem
 	{
 		[SerializeField] private float _health = 100f;
 
-        [SerializeField] private DeathAnimator _deathAnimator;
-
-        public bool IsDied { get; private set; } = false;
+        public event Action DownToZero;
 
 		private float _currentHealth;
 
-
-
-        private void OnEnable()
-        {
-            _deathAnimator.Died += Die;
-        }
-
-        private void OnDisable()
-        {
-            _deathAnimator.Died -= Die;   
-        }
-
+        public bool IsDied => _currentHealth <= 0;
+        
         private void Start()
         {
             _currentHealth = _health;
@@ -35,14 +23,8 @@ namespace Trell.CombatSystem
             _currentHealth = Mathf.Clamp(_currentHealth - damage, 0, _health);
             if(_currentHealth == 0)
             {
-                IsDied = true;
-                _deathAnimator.Die();
+                DownToZero?.Invoke();
             }
-        }
-
-        private void Die()
-        {
-            Destroy(gameObject);
         }
     }
 }
