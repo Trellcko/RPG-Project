@@ -3,7 +3,8 @@ namespace Trell.Core.StateMachinePattern
     public abstract class BaseState
     {
         private StateMachine _stateMachine;
-        protected BaseState(StateMachine stateMachine)
+
+        protected BaseState(StateMachine stateMachine, BaseBehaviour behaviour)
         {
             _stateMachine = stateMachine;
         }
