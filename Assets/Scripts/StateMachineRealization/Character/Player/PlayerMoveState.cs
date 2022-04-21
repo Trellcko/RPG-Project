@@ -16,13 +16,13 @@ namespace Trell.StateMachineRealization.Character.Player
         public override void Enter()
         {
             _playerBehaviour.Health.DownToZero += GoToState<DieState>;
-            _playerBehaviour.ClickHandler.HittedEnemyChanged += HittedEnemyChangedHandle;
+            _playerBehaviour.ClickHandler.HittedEnemyChanging += HittedEnemyChangedHandle;
         }
 
         public override void Exit()
         {
             _playerBehaviour.Health.DownToZero -= GoToState<DieState>;
-            _playerBehaviour.ClickHandler.HittedEnemyChanged -= HittedEnemyChangedHandle;
+            _playerBehaviour.ClickHandler.HittedEnemyChanging -= HittedEnemyChangedHandle;
             _playerBehaviour.Mover.Stop();
             _playerBehaviour.MovementAnimator.SetSpeed(0);
         }

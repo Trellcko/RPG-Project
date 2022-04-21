@@ -10,13 +10,11 @@ namespace Trell.Player
         [TagField]
         [SerializeField] private string _enemyTag;
 
-        public event Action<Health> HittedEnemyChanged;
-
         public event Action<Vector3> LastClickPositionChanged;
-
+        public event Action<Health> HittedEnemyChanging;
         public Vector3 LastClickPosition { get; private set; }
 
-        private Health _hittedEnemy;
+        public Health HittedEnemy { get; private set; }
         private Camera _camera;
         private bool _isMouseDown => InputHandler.Instace.IsMouseDown;
 
@@ -62,13 +60,14 @@ namespace Trell.Player
 
         private bool TryInvokeHittedEnemyChanged(Health enemy)
         {
-            if (_hittedEnemy != enemy)
+            if (HittedEnemy != enemy)
             {
-                HittedEnemyChanged?.Invoke(enemy);
-                _hittedEnemy = enemy;
+                HittedEnemyChanging?.Invoke(enemy);
+                HittedEnemy = enemy;
                 return true;
             }
             return false;
         }
     }
+
 }

@@ -14,13 +14,13 @@ namespace Trell.StateMachineRealization.Character.Player
         public override void Enter()
         {
             base.Enter();
-            _playerBehaviour.ClickHandler.HittedEnemyChanged += HittedEnemyChanged;
+            _playerBehaviour.ClickHandler.HittedEnemyChanging += HittedEnemyChanged;
         }
 
         public override void Exit()
         {
             base.Exit();
-            _playerBehaviour.ClickHandler.HittedEnemyChanged -= HittedEnemyChanged;
+            _playerBehaviour.ClickHandler.HittedEnemyChanging -= HittedEnemyChanged;
         }
 
         private void HittedEnemyChanged(Health enemy)

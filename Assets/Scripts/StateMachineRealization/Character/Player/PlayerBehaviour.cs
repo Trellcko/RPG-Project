@@ -18,23 +18,26 @@ namespace Trell.StateMachineRealization.Character.Player
         private void OnEnable()
         {
             TrySubscribeToTargetHealthDownToZeroEvent();
-            ClickHandler.HittedEnemyChanged += ChangeTarget;
+            ClickHandler.HittedEnemyChanging += ChangeTarget;
             ClickHandler.LastClickPositionChanged += ChangePositionToMove;
         }
 
         private void OnDisable()
         {
             TryUnSubscribeFromTargetHealthDownToZeroEvent();
-            ClickHandler.HittedEnemyChanged -= ChangeTarget;
+            ClickHandler.HittedEnemyChanging -= ChangeTarget;
             ClickHandler.LastClickPositionChanged -= ChangePositionToMove;
         }
 
         private void Awake()
         {
             PositionToMove = transform.position;
-            InitStateMachine();
         }
 
+        private void Start()
+        {
+            InitStateMachine();
+        }
 
         protected override void InitStateMachine()
         {
@@ -51,10 +54,10 @@ namespace Trell.StateMachineRealization.Character.Player
             StateMachine.SetState<PlayerMoveState>();
         }
 
-        private void ChangeTarget(Health target)
+        private void ChangeTarget(Health newEnemy)
         {
             TryUnSubscribeFromTargetHealthDownToZeroEvent();
-            Target = target;
+            Target = newEnemy;
             TrySubscribeToTargetHealthDownToZeroEvent();
         }
 

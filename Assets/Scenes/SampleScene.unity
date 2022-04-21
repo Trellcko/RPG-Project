@@ -493,8 +493,8 @@ MonoBehaviour:
   _chekingForRangeToCancelChasing: {fileID: 1832656529}
   _playerTag: Player
   <PatrolPoints>k__BackingField:
-  - {fileID: 744506740}
-  <CurrentPatrolPoint>k__BackingField: {fileID: 744506740}
+  - {fileID: 1705096501}
+  <CurrentPatrolPoint>k__BackingField: {fileID: 1705096501}
 --- !u!114 &536817560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -538,7 +538,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6219a1c9ae20d6d4e962b24189dbf208, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 100
+  _health: 10
 --- !u!114 &536817563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -604,6 +604,9 @@ MonoBehaviour:
     <DoDrawZone>k__BackingField: 1
   - <CheckingForRange>k__BackingField: {fileID: 1477952760}
     <Color>k__BackingField: {r: 0.990566, g: 0.14391239, b: 0.14391239, a: 1}
+    <DoDrawZone>k__BackingField: 1
+  - <CheckingForRange>k__BackingField: {fileID: 1832656529}
+    <Color>k__BackingField: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 1}
     <DoDrawZone>k__BackingField: 1
 --- !u!4 &551200906 stripped
 Transform:
@@ -846,11 +849,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!4 &744506740 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1516024984854475685, guid: ee76aecfc90c6204a9508996107febdd, type: 3}
-  m_PrefabInstance: {fileID: 3805580212387898513}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &744506741 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3805580212387898515, guid: ee76aecfc90c6204a9508996107febdd, type: 3}
@@ -2458,7 +2456,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1705096500}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19.08085, y: 0.50577307, z: -17.560751}
+  m_LocalPosition: {x: 19.08085, y: 0.50577307, z: -9.31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2522,7 +2520,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67b4796dee1f5a64085845316700c09a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Range>k__BackingField: 8
+  <Range>k__BackingField: 6
 --- !u!1001 &1883837832
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2876,7 +2874,7 @@ PrefabInstance:
       objectReference: {fileID: 744506742}
     - target: {fileID: 1446447205, guid: ee76aecfc90c6204a9508996107febdd, type: 3}
       propertyPath: _health
-      value: 100
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 688450427667502010, guid: ee76aecfc90c6204a9508996107febdd, type: 3}
       propertyPath: m_RootOrder

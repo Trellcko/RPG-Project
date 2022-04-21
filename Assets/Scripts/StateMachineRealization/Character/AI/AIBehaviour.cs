@@ -19,24 +19,48 @@ namespace Trell.StateMachineRealization.Character.AI
         [TabGroup("Tags")]
         [TagField]
         [SerializeField] private string _playerTag;
-        
-        [field: BoxGroup("Patrol")]
+
+        [field: TabGroup("Data", "Patrol")]
         [field: SerializeField] public Transform[] PatrolPoints { get; private set; }
 
-        [field: BoxGroup("Patrol")]
+        [field: TabGroup("Data", "Patrol")]
         [field: ValueDropdown(nameof(PatrolPoints))]
         [field: SerializeField] public Transform CurrentPatrolPoint { get; private set; }
+
+        [TabGroup("Data", "Patrol")]
+        [SerializeField] private float _suspiciousTime;
+
 
         public Transform PlayerTransform { get; private set; }
 
         public bool IsPlayerFarAway => _chekingForRangeToCancelChasing.InRange(PlayerTransform.position) == false;
 
-        public bool CanISeePlayer => _checkingForRangeToTriggerChasing.InRange(PlayerTransform.position);
+        public bool CanStartChasingPlayer => _checkingForRangeToTriggerChasing.InRange(PlayerTransform.position);
+
+        [ShowInInspector]
+        [TabGroup("Data", "Patrol")]
+        public bool IsSupsicious => _timeToDontSupsicious > 0;
+
+        private float _timeToDontSupsicious = 0;
 
         private void Awake()
         {
             GetPlayer();
+        }
+
+        private void Start()
+        {
             InitStateMachine();
+        }
+
+        public void ResetSuspuciousTime()
+        {
+            _timeToDontSupsicious = _suspiciousTime;
+        }
+
+        public void TickSuspiciousTime()
+        {
+            _timeToDontSupsicious -= Time.deltaTime;
         }
 
         protected override void InitStateMachine()
@@ -44,6 +68,7 @@ namespace Trell.StateMachineRealization.Character.AI
             StateMachine = new StateMachine();
             var states = new Dictionary<Type, BaseState>()
             {
+                [typeof(AISuspiciousState)] = new AISuspiciousState(StateMachine, this),
                 [typeof(AIPatrolState)] = new AIPatrolState(StateMachine, this),
                 [typeof(AIChaseState)] = new AIChaseState(StateMachine, this),
                 [typeof(AIAttackState)] = new AIAttackState(StateMachine, this),

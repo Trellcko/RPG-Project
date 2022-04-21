@@ -14,20 +14,27 @@ namespace Trell.StateMachineRealization.Character.Player
         public override void Enter()
         {
             base.Enter();
-            _playerBehaviour.ClickHandler.HittedEnemyChanged += HittedEnemyChangedHandle;
+            _playerBehaviour.ClickHandler.HittedEnemyChanging += HittedEnemyChangedHandle;
             _playerBehaviour.Target.DownToZero += GoToState<PlayerMoveState>;
         }
 
         public override void Exit()
         {
             base.Exit();
-            _playerBehaviour.ClickHandler.HittedEnemyChanged -= HittedEnemyChangedHandle;
-            _playerBehaviour.Target.DownToZero -= GoToState<PlayerMoveState>;
+            _playerBehaviour.ClickHandler.HittedEnemyChanging -= HittedEnemyChangedHandle;
+            if (_playerBehaviour.Target != null)
+            {
+                _playerBehaviour.Target.DownToZero -= GoToState<PlayerMoveState>;
+            }
         }
 
-        private void HittedEnemyChangedHandle(Health enemy)
+        private void HittedEnemyChangedHandle(Health newEnemy)
         {
-            if (enemy == null)
+            if(_playerBehaviour.ClickHandler.HittedEnemy != null)
+            {
+                _playerBehaviour.ClickHandler.HittedEnemy.DownToZero -= GoToState<PlayerMoveState>;
+            }
+            if (newEnemy == null)
             {
                 GoToState<PlayerMoveState>();
             }

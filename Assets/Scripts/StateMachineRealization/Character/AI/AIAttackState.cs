@@ -13,13 +13,13 @@ namespace Trell.StateMachineRealization.Character.AI
         public override void Enter()
         {
             base.Enter();
-            _aIBehaviour.Target.DownToZero += GoToState<AIPatrolState>;
+            _aIBehaviour.Target.DownToZero += GoToState<AISuspiciousState>;
         }
 
         public override void Exit()
         {
             base.Exit();
-            _aIBehaviour.Target.DownToZero -= GoToState<AIPatrolState>;
+            _aIBehaviour.Target.DownToZero -= GoToState<AISuspiciousState>;
         }
 
         public override void Update()

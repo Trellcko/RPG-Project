@@ -19,15 +19,22 @@ namespace Trell.StateMachineRealization.Character.AI
         public override void Exit()
         {
             _aIBehaviour.Health.DownToZero -= GoToState<DieState>;
+            _aIBehaviour.Mover.Stop();
+            _aIBehaviour.MovementAnimator.SetSpeed(0);
         }
 
         public override void Update()
         {
+            _aIBehaviour.MovementAnimator.SetSpeed(_aIBehaviour.Mover.GetSpeed());
             _aIBehaviour.TickTimeToAttack();
-            if (_aIBehaviour.CanISeePlayer)
+            if (_aIBehaviour.CanStartChasingPlayer)
             {
                 GoToState<AIChaseState>();
             }
+        }
+        public override void FixedUpdate()
+        {
+            _aIBehaviour.Mover.SetTarget(_aIBehaviour.CurrentPatrolPoint.position);
         }
     }
 }
