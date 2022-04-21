@@ -23,7 +23,7 @@ namespace Trell.StateMachineRealization.Character.AI
 
         public override void Update()
         {
-            if (_aIBehaviour.InRangeToTriggerChasing)
+            if (_aIBehaviour.CanISeePlayer)
             {
                 GoToState<AIChaseState>();
             }

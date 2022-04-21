@@ -12,7 +12,7 @@ namespace Trell.Player
 
         public event Action<Health> HittedEnemyChanged;
 
-        public Vector3 LastClickedPosition { get; private set; }
+        public Vector3 PositionToMove { get; private set; }
 
         private Health _hittedEnemy;
         private Camera _camera;
@@ -22,7 +22,7 @@ namespace Trell.Player
         private void Awake()
         {
             _camera = Camera.main;
-            LastClickedPosition = transform.position;
+            PositionToMove = transform.position;
         }
 
         private void Update()
@@ -36,7 +36,7 @@ namespace Trell.Player
                 if (hits.Length > 0)
                 {
                     Health tempEnemy = null;
-                    LastClickedPosition = hits[0].point;
+                    PositionToMove = hits[0].point;
                     foreach (var hit in hits)
                     {
                         if (hit.transform.CompareTag(_enemyTag))
@@ -60,7 +60,7 @@ namespace Trell.Player
         private void EnemyHealthDownToZeroHandle()
         {
             _hittedEnemy.DownToZero -= EnemyHealthDownToZeroHandle;
-            LastClickedPosition = transform.position;
+            PositionToMove = transform.position;
             TryInvokeHittedEnemyChanged(null);
         }
 

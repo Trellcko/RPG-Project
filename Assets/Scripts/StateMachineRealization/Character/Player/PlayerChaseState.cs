@@ -34,7 +34,7 @@ namespace Trell.StateMachineRealization.Character.Player
         public override void Update()
         {
             base.Update();
-            if(_playerBehaviour.InRangeRangeToStartAttack)
+            if(_playerBehaviour.EnoughCloseToAttack)
             {
                 GoToState<PlayerAttackState>();
             }

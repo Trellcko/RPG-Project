@@ -25,12 +25,12 @@ namespace Trell.StateMachineRealization.Character.Player
 
         public override void Update()
         {
+            _playerBehaviour.MovementAnimator.SetSpeed(_playerBehaviour.Mover.GetSpeed());
         }
 
         public override void FixedUpdate()
         {
             _playerBehaviour.Mover.SetTarget(_playerBehaviour.LastClickedPosition);
-            _playerBehaviour.MovementAnimator.SetSpeed(_playerBehaviour.Mover.GetSpeed());
         }
 
         private void HittedEnemyChangedHandle(Health enemy)

@@ -7,5 +7,15 @@ namespace Trell.Core.StateMachinePattern
 		protected StateMachine StateMachine;
 
 		protected abstract void InitStateMachine();
-	}
+
+        private void Update()
+        {
+            StateMachine.Update();
+        }
+
+        private void FixedUpdate()
+        {
+            StateMachine.FixedUpdate();
+        }
+    }
 }

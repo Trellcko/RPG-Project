@@ -4,16 +4,16 @@ using System.Collections.Generic;
 using System;
 using Trell.Player;
 using Trell.CombatSystem;
+using Sirenix.OdinInspector;
 
 namespace Trell.StateMachineRealization.Character.Player
 {
 	public class PlayerBehaviour : CharacterBehaviour
 	{
-        [Header("Player Part")]
-        [Space]
-        [field: SerializeField] public PlayerClickHandler ClickHandler;
+        [field: TabGroup("Handlers")]
+        [field: SerializeField] public PlayerClickHandler ClickHandler { get; private set; }
 
-        public Vector3 LastClickedPosition => ClickHandler.LastClickedPosition;
+        public Vector3 LastClickedPosition => ClickHandler.PositionToMove;
         
         private void OnEnable()
         {

@@ -14,9 +14,15 @@ namespace Trell.StateMachineRealization.Character.AI
         public override void Update()
         {
             base.Update();
-            if(_aIBehaviour.InRangeRangeToStartAttack)
+            if(_aIBehaviour.IsPlayerFarAway)
+            {
+                GoToState<AIPatrolState>();
+                return;
+            }
+            if(_aIBehaviour.EnoughCloseToAttack)
             {
                 GoToState<AIAttackState>();
+                return;
             }
         }
     }

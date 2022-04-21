@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using Trell.Animation.Character;
 using Trell.CombatSystem;
 using Trell.Core.StateMachinePattern;
@@ -9,36 +10,26 @@ namespace Trell.StateMachineRealization.Character
 {
 	public abstract class CharacterBehaviour : BaseBehaviour
 	{
-        [Header("Character part")]
-        [Space]
-        [Header("Behaviour Components")]
-        [field: SerializeField] public Mover Mover;
-        [field: SerializeField] public Attacking Attacking;
-        [field: SerializeField] public Health Health;
+        [field: TabGroup("Behaviour Components")]
+        [field: SerializeField] public Mover Mover { get; private set; }
+        [field: TabGroup("Behaviour Components")]
+        [field: SerializeField] public Attacking Attacking { get; private set; }
+        [field: TabGroup("Behaviour Components")]
+        [field: SerializeField] public Health Health { get; private set; }
 
-        [Space]
-        [Header("Animators")]
-        [field: SerializeField] public MovementAnimator MovementAnimator;
-        [field: SerializeField] public AttackingAnimator AttackingAnimator;
-        [field: SerializeField] public DeathAnimator DeathAnimator;
+        [field: TabGroup("Animators")]
+        [field: SerializeField] public MovementAnimator MovementAnimator { get; private set; }
+        [field: TabGroup("Animators")]
+        [field: SerializeField] public AttackingAnimator AttackingAnimator { get; private set; }
+        [field: TabGroup("Animators")]
+        [field: SerializeField] public DeathAnimator DeathAnimator { get; private set; }
 
-        [Space]
-        [Header("Checkers for range")]
-        [SerializeField] protected CheckingForRange CheckingForRangeToStartAttack;
-        public bool InRangeRangeToStartAttack => CheckingForRangeToStartAttack.InRange(Target.transform.position);
+        [TabGroup("Checking for Range")]
+        [SerializeField] private CheckingForRange _checkingForRangeToStartAttack;
+        public bool EnoughCloseToAttack => _checkingForRangeToStartAttack.InRange(Target.transform.position);
 
         public Health Target { get; protected set; }
 
         protected override void InitStateMachine() { }
-
-        public void Update()
-        {
-            StateMachine.Update();
-        }
-
-        public void FixedUpdate()
-        {
-            StateMachine.FixedUpdate();
-        }
     }
 }
