@@ -23,6 +23,7 @@ namespace Trell.StateMachineRealization.Character.AI
 
         public override void Update()
         {
+            _aIBehaviour.TickTimeToAttack();
             if (_aIBehaviour.CanISeePlayer)
             {
                 GoToState<AIChaseState>();

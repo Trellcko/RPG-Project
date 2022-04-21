@@ -29,6 +29,7 @@ namespace Trell.StateMachineRealization.Character
 
         public override void Update()
         {
+            _characterBehaviour.TickTimeToAttack();
             _characterBehaviour.MovementAnimator.SetSpeed(_characterBehaviour.Mover.GetSpeed());
         }
 

@@ -11,6 +11,19 @@ namespace Trell.StateMachineRealization.Character.AI
             _aIBehaviour = aIBehaviour;
         }
 
+        public override void Enter()
+        {
+            base.Enter();
+            _aIBehaviour.Target.DownToZero += GoToState<AIPatrolState>;
+        }
+
+
+        public override void Exit()
+        {
+            base.Exit();
+            _aIBehaviour.Target.DownToZero -= GoToState<AIPatrolState>;
+        }
+
         public override void Update()
         {
             base.Update();

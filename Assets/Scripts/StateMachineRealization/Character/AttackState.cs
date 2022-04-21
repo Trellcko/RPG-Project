@@ -27,11 +27,19 @@ namespace Trell.StateMachineRealization.Character
 
         public override void Update()
         {
+            _characterBehaviour.TickTimeToAttack();
             _characterBehaviour.transform.LookAt(_characterBehaviour.Target.transform);
+            if (_characterBehaviour.IsTimeToAttack)
+            {
+                _characterBehaviour.AttackingAnimator.StartAttack();
+                return;
+            }
+            _characterBehaviour.AttackingAnimator.StopAttack();
         }
 
         protected virtual void Attack()
         {
+            _characterBehaviour.ResetTimeBetweenAttack();
             _characterBehaviour.Attacking.Attack(_characterBehaviour.Target);
         }
     }

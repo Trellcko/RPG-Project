@@ -12,7 +12,9 @@ namespace Trell.Player
 
         public event Action<Health> HittedEnemyChanged;
 
-        public Vector3 PositionToMove { get; private set; }
+        public event Action<Vector3> LastClickPositionChanged;
+
+        public Vector3 LastClickPosition { get; private set; }
 
         private Health _hittedEnemy;
         private Camera _camera;
@@ -22,7 +24,7 @@ namespace Trell.Player
         private void Awake()
         {
             _camera = Camera.main;
-            PositionToMove = transform.position;
+            LastClickPosition = transform.position;
         }
 
         private void Update()
@@ -36,7 +38,8 @@ namespace Trell.Player
                 if (hits.Length > 0)
                 {
                     Health tempEnemy = null;
-                    PositionToMove = hits[0].point;
+                    LastClickPosition = hits[0].point;
+                    LastClickPositionChanged?.Invoke(LastClickPosition);
                     foreach (var hit in hits)
                     {
                         if (hit.transform.CompareTag(_enemyTag))
@@ -57,30 +60,12 @@ namespace Trell.Player
             }
         }
 
-        private void EnemyHealthDownToZeroHandle()
-        {
-            _hittedEnemy.DownToZero -= EnemyHealthDownToZeroHandle;
-            PositionToMove = transform.position;
-            TryInvokeHittedEnemyChanged(null);
-        }
-
         private bool TryInvokeHittedEnemyChanged(Health enemy)
         {
             if (_hittedEnemy != enemy)
             {
                 HittedEnemyChanged?.Invoke(enemy);
-
-                if (_hittedEnemy != null)
-                {
-                    _hittedEnemy.DownToZero -= EnemyHealthDownToZeroHandle;
-                }
-
                 _hittedEnemy = enemy;
-
-                if(_hittedEnemy != null)
-                {
-                    _hittedEnemy.DownToZero += EnemyHealthDownToZeroHandle;
-                }
                 return true;
             }
             return false;

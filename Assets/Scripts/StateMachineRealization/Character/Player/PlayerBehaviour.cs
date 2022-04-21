@@ -8,25 +8,30 @@ using Sirenix.OdinInspector;
 
 namespace Trell.StateMachineRealization.Character.Player
 {
-	public class PlayerBehaviour : CharacterBehaviour
-	{
+    public class PlayerBehaviour : CharacterBehaviour
+    {
         [field: TabGroup("Handlers")]
         [field: SerializeField] public PlayerClickHandler ClickHandler { get; private set; }
 
-        public Vector3 LastClickedPosition => ClickHandler.PositionToMove;
+        public Vector3 PositionToMove { get; private set; }
         
         private void OnEnable()
         {
+            TrySubscribeToTargetHealthDownToZeroEvent();
             ClickHandler.HittedEnemyChanged += ChangeTarget;
+            ClickHandler.LastClickPositionChanged += ChangePositionToMove;
         }
 
         private void OnDisable()
         {
+            TryUnSubscribeFromTargetHealthDownToZeroEvent();
             ClickHandler.HittedEnemyChanged -= ChangeTarget;
+            ClickHandler.LastClickPositionChanged -= ChangePositionToMove;
         }
 
         private void Awake()
         {
+            PositionToMove = transform.position;
             InitStateMachine();
         }
 
@@ -48,7 +53,39 @@ namespace Trell.StateMachineRealization.Character.Player
 
         private void ChangeTarget(Health target)
         {
+            TryUnSubscribeFromTargetHealthDownToZeroEvent();
             Target = target;
+            TrySubscribeToTargetHealthDownToZeroEvent();
         }
+
+        private bool TrySubscribeToTargetHealthDownToZeroEvent()
+        {
+            if (Target != null)
+            {
+                Target.DownToZero += TargetHealthDownToZeroHandle;
+                return true;
+            }
+            return false;
+        }
+
+        private bool TryUnSubscribeFromTargetHealthDownToZeroEvent()
+        {
+            if (Target != null)
+            {
+                Target.DownToZero -= TargetHealthDownToZeroHandle;
+                return true;
+            }
+            return false;
+        }
+
+        private void TargetHealthDownToZeroHandle()
+        {
+            ChangePositionToMove(transform.position);
+        }
+        private void ChangePositionToMove(Vector3 position)
+        {
+            PositionToMove = position;
+        }
+
     }
 }
